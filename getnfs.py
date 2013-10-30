@@ -78,16 +78,76 @@ class NfsMntStat:
 		
 		print "\n"
 	
-outarr, stderr, retcode1 = getmounts()
+	def getMntpt(self):
+		return self.mntpt
 
-mntstats = {}
+	def getNfssrc(self):
+		return self.nfssrc
 
-for i in outarr:
-	mntinfo, mnterr, mntret = getnfsstats(i)
-	mntstats[i] = [mntinfo, mntret]
+	def getOpspersec(self):
+		return self.opspersec
 
+	def getRPCbklog(self):
+		return self.rpcbklog
 
-for dkey in mntstats.keys():
-	if mntstats[dkey][1] == 0:
-		x = NfsMntStat(dkey, mntstats[dkey])
-	x.listStats()
+	def getRopspersec(self):
+		return self.ropspersec
+
+	def getRretransmits(self):
+		return self.rretrans
+
+	def getRavgrtt(self):
+		return self.ravgrtt
+
+	def getRavgexe(self):
+		return self.ravexe
+
+	def getWopspersec(self):
+		return self.wopspersec
+
+	def getWkbpersec(self):
+		return self.wkpbersec
+
+	def getWkbperop(self):
+		return self.wkbperop
+
+	def getWretransmits(self):
+		return self.wretrans
+
+	def getWavgrtt(self):
+		return self.wavgrtt
+
+	def getWavgexe(self):
+		return self.wavgexe
+	
+def listStats(nfsobj):
+	for dkey in mntstats.keys():
+		if mntstats[dkey][1] == 0:
+			x = NfsMntStat(dkey, mntstats[dkey])
+		x.listStats()
+
+def nfsstatInit():
+	outarr, stderr, retcode1 = getmounts()
+	mntstats = {}
+	for i in outarr:
+		mntinfo, mnterr, mntret = getnfsstats(i)
+		mntstats[i] = [mntinfo, mntret]
+
+	return mntstats
+	
+
+def main():
+
+	mntstats = nfsstatInit()
+	for dkey in mntstats.keys():
+		#print "Mount point:\t[%s] \nStats:\t[%s]\nRetCode:\t[%s]\n" % (dkey,mntstats[dkey][0],mntstats[dkey][1])
+#		print mntstats[dkey]
+		#print "Dkey is [%s]\n" % dkey
+		#print "Retcode is [%s]\n" % mntstats[dkey][1]
+		if mntstats[dkey][1] == 0:
+			x = NfsMntStat(dkey, mntstats[dkey])
+		x.listStats()
+	
+
+if __name__ == "__main__":
+	main()
