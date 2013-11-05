@@ -1,9 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys
 from subprocess import Popen, PIPE
-import re
-import os
 
 def getmounts():
 	p = Popen(['/etc/init.d/netfs', 'status'], stdout=PIPE, stderr=PIPE)
@@ -85,7 +83,7 @@ class NfsMntStat:
 		return self.nfssrc
 
 	def getOpspersec(self):
-		return self.opspersec
+		return self.oppersec
 
 	def getRPCbklog(self):
 		return self.rpcbklog
@@ -106,7 +104,7 @@ class NfsMntStat:
 		return self.wopspersec
 
 	def getWkbpersec(self):
-		return self.wkpbersec
+		return self.wkbpersec
 
 	def getWkbperop(self):
 		return self.wkbperop
@@ -119,7 +117,11 @@ class NfsMntStat:
 
 	def getWavgexe(self):
 		return self.wavgexe
-	
+
+	def getStats(self):
+		nfsstatdict = [self.oppersec, self.rpcbklog, self.ropspersec, self.rretrans, self.ravgrtt, self.ravexe, self.wopspersec, self.wkbpersec, self.wkbperop, self.wretrans, self.wavgrtt, self.wavgexe]
+		return nfsstatdict
+
 def listStats(nfsobj):
 	for dkey in mntstats.keys():
 		if mntstats[dkey][1] == 0:
