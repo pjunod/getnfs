@@ -14,14 +14,15 @@ if nfsdata in nfsopts.keys():
 
 	mntinfo, mnterr, mntret = getnfs.getnfsstats(mntpt)
 
-	mntstats[mntpt] = [mntinfo, mntret]
+	if mntret == 0:
+		mntstats[mntpt] = [mntinfo, mntret]
 
-	x = getnfs.NfsMntStat(mntpt, mntstats[mntpt])
-	z = x.getStats()
+		x = getnfs.NfsMntStat(mntpt, mntstats[mntpt])
+		z = x.getStats()
 	
-	print z[nfsopts[nfsdata]]
-	#print "Stat [%s] is [%s]\n" % (nfsdata, z[nfsopts[nfsdata]])
+		print z[nfsopts[nfsdata]]
+	else:
+		print "-1"
 else:
-	#print "ERROR: invalid nfs statistic. NFS Stats must be one of [%s]:\n" % nfsopts
 	print "-1"
 
