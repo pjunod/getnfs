@@ -21,11 +21,17 @@ def getmounts():
 	#print "Active mountpoints found starting at index [%s]\n" % index
 	#print "First active mountpoint is [%s]\n" % index
 	outputarr=outputarr[index:]
+	#f=open('/reserved/mounts.log', 'a')
+	#f.write("%s\n" % outputarr)
+	#f.close()
 	#print outputarr
 	return outputarr, p.stderr.readlines(), retcode
 
 def getnfsstats(mntpt):
 	#print "mntpt is [%s]\n" % mntpt
+	#f=open('/reserved/mntpt.log', 'a')
+	#f.write("%s\n" % mntpt)
+	#f.close()
 	p = Popen(['/usr/sbin/nfsiostat', '%s' % mntpt], stdout=PIPE, stderr=PIPE)
 	retcode = p.wait()
 	statsarr = []
@@ -41,6 +47,9 @@ class NfsMntStat:
 #		print self.statdict[0]
 #		print self.statdict[0][0]
 		#print "First entry: [%s]\n" % self.statdict[0][1].split()[0]
+		#f=open('/reserved/python.log', 'a')
+		#f.write("%s\n" % str(self.statdict))
+		#f.close()
 		self.nfssrc = self.statdict[0][1].split()[0]
 		self.oppersec = self.statdict[0][4].split()[0]
 		self.rpcbklog = self.statdict[0][4].split()[1]
