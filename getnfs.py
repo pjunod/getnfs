@@ -18,20 +18,10 @@ def getmounts():
 	if actfound == 0:
 		sys.exit("No active mountpoints found. Check '/sbin/service netfs status' for details\n")
 	index+=1
-	#print "Active mountpoints found starting at index [%s]\n" % index
-	#print "First active mountpoint is [%s]\n" % index
 	outputarr=outputarr[index:]
-	#f=open('/reserved/mounts.log', 'a')
-	#f.write("%s\n" % outputarr)
-	#f.close()
-	#print outputarr
 	return outputarr, p.stderr.readlines(), retcode
 
 def getnfsstats(mntpt):
-	#print "mntpt is [%s]\n" % mntpt
-	#f=open('/reserved/mntpt.log', 'a')
-	#f.write("%s\n" % mntpt)
-	#f.close()
 	p = Popen(['/usr/sbin/nfsiostat', '%s' % mntpt], stdout=PIPE, stderr=PIPE)
 	retcode = p.wait()
 	statsarr = []
@@ -44,12 +34,6 @@ class NfsMntStat:
 	def __init__(self, mntpt, statdict):
 		self.mntpt = mntpt
 		self.statdict = statdict
-#		print self.statdict[0]
-#		print self.statdict[0][0]
-		#print "First entry: [%s]\n" % self.statdict[0][1].split()[0]
-		#f=open('/reserved/python.log', 'a')
-		#f.write("%s\n" % str(self.statdict))
-		#f.close()
 		self.nfssrc = self.statdict[0][1].split()[0]
 		self.oppersec = self.statdict[0][4].split()[0]
 		self.rpcbklog = self.statdict[0][4].split()[1]
@@ -151,10 +135,6 @@ def main():
 
 	mntstats = nfsstatInit()
 	for dkey in mntstats.keys():
-		#print "Mount point:\t[%s] \nStats:\t[%s]\nRetCode:\t[%s]\n" % (dkey,mntstats[dkey][0],mntstats[dkey][1])
-#		print mntstats[dkey]
-		#print "Dkey is [%s]\n" % dkey
-		#print "Retcode is [%s]\n" % mntstats[dkey][1]
 		if mntstats[dkey][1] == 0:
 			x = NfsMntStat(dkey, mntstats[dkey])
 		x.listStats()
